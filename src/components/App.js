@@ -4,11 +4,15 @@ import "../styles/App.css";
 const App = () => {
   const [inputFields, setInputFields] = useState({
     name: "",
-    emailID: "",
+    emailId: "",
     gender: "male",
     phoneNumber: "",
-    password: ""
+    password: "",
+    userName: ""
   });
+
+  const [errorFields, setErrorFields] = useState("");
+
 
   const handleChange = (event) => {
     let name = event.target.name;
@@ -23,10 +27,48 @@ const App = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    if (
+      inputFields.name === "" ||
+      inputFields.emailId === "" ||
+      inputFields.gender === "" ||
+      inputFields.phoneNumber === "" ||
+      inputFields.password === ""
+    ) {
+      setErrorFields("All fields are mandatory");
+    } else if (inputFields.name.match(/^[a-z0-9]+$/i) === false) {
+      setErrorFields("Name is not alphanumeri");
+    } else if (inputFields.emailId.includes("@") === false) {
+      setErrorFields("Email must contain @");
+    } else if (
+      inputFields.gender !== "male" ||
+      inputFields.gender !== "female" ||
+      inputFields.gender !== "other"
+    ) {
+      setErrorFields("Please identify as male, female or others");
+    } else if (Number.isNaN(inputFields.phoneNumber)) {
+      setErrorFields("Phone Number must contain only numbers");
+    } else if (inputFields.password.length < 6) {
+      setErrorFields("Password must contain atleast 6 letters");
+    } else {
+      let index = inputFields.emailId.indexOf("@");
+      let name = inputFields.emailId.substring(0, index);
+      setInputFields((prevInputFields) => {
+        return { ...prevInputFields, userName: name };
+      });
+      setErrorFields("");
+      setInputFields({
+        name: "",
+        emailId: "",
+        gender: "male",
+        phoneNumber: "",
+        password: ""
+      });
+    }
   };
 
   return (
     <div id="main">
+      <h2>{errorFields ? errorFields : `Hello${inputFields.userName}`}</h2>
       <form>
         <input
           data-testid="name"
@@ -39,7 +81,7 @@ const App = () => {
         <input
           data-testid="email"
           type="email"
-          name="emailID"
+          name="emailId"
           placeholder="Enter Your Email Id"
           value={inputFields.emailID}
           onChange={handleChange}
