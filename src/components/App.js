@@ -25,8 +25,7 @@ const App = () => {
     // console.log(inputFields);
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleClick = () => {
     if (
       inputFields.name === "" ||
       inputFields.emailId === "" ||
@@ -40,8 +39,8 @@ const App = () => {
     } else if (inputFields.emailId.includes("@") === false) {
       setErrorFields("Email must contain @");
     } else if (
-      inputFields.gender !== "male" ||
-      inputFields.gender !== "female" ||
+      inputFields.gender !== "male" &&
+      inputFields.gender !== "female" &&
       inputFields.gender !== "other"
     ) {
       setErrorFields("Please identify as male, female or others");
@@ -56,20 +55,13 @@ const App = () => {
         return { ...prevInputFields, userName: name };
       });
       setErrorFields("");
-      setInputFields({
-        name: "",
-        emailId: "",
-        gender: "male",
-        phoneNumber: "",
-        password: ""
-      });
     }
   };
 
   return (
     <div id="main">
-      <h2>{errorFields ? errorFields : `Hello${inputFields.userName}`}</h2>
-      <form>
+      <h2>{errorFields ? errorFields : `Hello ${inputFields.userName}`}</h2>
+      <div>
         <input
           data-testid="name"
           type="text"
@@ -110,10 +102,10 @@ const App = () => {
           value={inputFields.password}
           onChange={handleChange}
         ></input>
-        <button data-testid="submit" onSubmit={handleSubmit}>
+        <button data-testid="submit" onClick={handleClick}>
           Submit
         </button>
-      </form>
+      </div>
     </div>
   );
 };
