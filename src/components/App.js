@@ -34,7 +34,7 @@ const App = () => {
       inputFields.password === ""
     ) {
       setErrorFields("All fields are mandatory");
-    } else if (inputFields.name.match(/^[a-z0-9]+$/i) === false) {
+    } else if (inputFields.name.match(/^[a-zA-Z]+$/) === false) {
       setErrorFields("Name is not alphanumeri");
     } else if (inputFields.emailId.includes("@") === false) {
       setErrorFields("Email must contain @");
