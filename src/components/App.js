@@ -11,7 +11,7 @@ const App = () => {
     userName: ""
   });
 
-  const [errorFields, setErrorFields] = useState("");
+  const [errorFields, setErrorFields] = useState(false);
 
 
   const handleChange = (event) => {
@@ -54,13 +54,14 @@ const App = () => {
       setInputFields((prevInputFields) => {
         return { ...prevInputFields, userName: name };
       });
-      setErrorFields("");
+      setErrorFields(false);
     }
   };
 
   return (
     <div id="main">
-      <h2>{errorFields ? errorFields : `Hello ${inputFields.userName}`}</h2>
+      {errorFields && <div>{`Hello ${inputFields.userName}`}</div>}
+      {!errorFields && <div>{errorFields}</div>}
       <div>
         <input
           data-testid="name"
